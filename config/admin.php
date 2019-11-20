@@ -11,7 +11,7 @@ return [
     | login page.
     |
     */
-    'name' => 'Laravel-admin',
+    'name' => 'pinduoduo-admin',
 
     /*
     |--------------------------------------------------------------------------
@@ -22,7 +22,7 @@ return [
     | `img` tag, eg '<img src="http://logo-url" alt="Admin logo">'.
     |
     */
-    'logo' => '<b>Laravel</b> admin',
+    'logo' => '<b>拼多多</b> 管理系统',
 
     /*
     |--------------------------------------------------------------------------
@@ -34,7 +34,7 @@ return [
     | '<img src="http://logo-url" alt="Admin logo">'.
     |
     */
-    'logo-mini' => '<b>La</b>',
+    'logo-mini' => '<b>拼</b>',
 
     /*
     |--------------------------------------------------------------------------
@@ -85,7 +85,7 @@ return [
     | Html title for all pages.
     |
     */
-    'title' => 'Admin',
+    'title' => '拼多多管理系统',
 
     /*
     |--------------------------------------------------------------------------
@@ -396,6 +396,18 @@ return [
     |
     */
     'extensions' => [
+        'grid-lightbox' => [
 
+            // Set to `false` if you want to disable this extension
+            'enable' => true,
+        ],
+        'chartjs' => [
+
+            // Set to `false` if you want to disable this extension
+            'enable' => true,
+        ],
+        'breadcrumb' => [
+            'enable' => true,
+        ]
     ],
 ];

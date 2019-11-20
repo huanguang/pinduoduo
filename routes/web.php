@@ -11,6 +11,4 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/pay/wePayH5/{order_sn}', 'PayController@wxPayH5');

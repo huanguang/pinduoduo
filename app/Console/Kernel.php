@@ -26,6 +26,9 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')
         //          ->hourly();
+        $schedule->command('starter:confirmOrder')->everyFiveMinutes();//每五分钟执行一次,确认订单收货
+        $schedule->command('starter:updateOrder')->everyFiveMinutes();//每五分钟执行一次 ，更新订单状态
+        $schedule->command('starter:notifyOrder')->everyMinute();;//每分钟执行一次 ，推送订单状态
     }
 
     /**

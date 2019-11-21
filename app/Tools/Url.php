@@ -28,12 +28,12 @@ class Url
 
     public static $payWeChatUrl = 'https://mobile.yangkeduo.com/friend_pay.html?fp_id=%s';//微信代付
 
-    public static $payWeChatH5Url = '/api/pay/wePayH5/%d';//微信h5支付
+    public static $payWeChatH5Url = '/pay/wePayH5/%d';//微信h5支付
 
     public static $orderListUrl = 'https://mobile.yangkeduo.com/proxy/api/api/aristotle/order_list?pdduid=%d';//订单列表
 
     //public static $orderDetailsUrl = 'https://mobile.yangkeduo.com/proxy/api/order/%s/received?pdduid=%d';//订单详情
     public static $orderDetailsUrl = 'https://mobile.yangkeduo.com/order.html?order_sn=%s';//订单详情
 
-    public static $pay = 'http://mobile.yangkeduo.com/proxy/api/order/prepay?pdduid=%d';//支付url
+    public static $pay = 'https://mobile.yangkeduo.com/proxy/api/order/prepay?pdduid=%d';//支付url
 }

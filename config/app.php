@@ -178,6 +178,19 @@ return [
          * 注册队列执行订单任务事件
          */
         //App\Providers\OrderStatusServiceProvider::class,
+        /**
+         * 生成二维码
+         */
+        SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class,
+        /**
+         * 图片处理
+         */
+        Intervention\Image\ImageServiceProvider::class,
+        /**
+         * 文件到处
+         */
+        Maatwebsite\Excel\ExcelServiceProvider::class,
+        Barryvdh\Debugbar\ServiceProvider::class,
 
     ],
 
@@ -229,7 +242,10 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-
+        'QrCode' => SimpleSoftwareIO\QrCode\Facades\QrCode::class,//生成二维码
+        'Image' => Intervention\Image\Facades\Image::class,//图片处理
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,//excel导出
+        'Debugbar' => Barryvdh\Debugbar\Facade::class,
     ],
 
 ];

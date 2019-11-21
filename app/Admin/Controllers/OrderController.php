@@ -27,6 +27,7 @@ use App\Tools\OrderType;
 use Illuminate\Support\MessageBag;
 use Encore\Admin\Widgets\Table;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class OrderController extends Controller
 {
@@ -98,9 +99,9 @@ class OrderController extends Controller
     protected function grid()
     {
         $grid = new Grid(new Order);
-        $grid->model()->orderBy('updated_at', 'desc');
-        $grid->id('ID');
-        $grid->money('金额');
+        $grid->model()->orderBy('pay_at', 'desc');
+        $grid->id('ID')->sortable();
+        $grid->money('金额')->sortable();
         $grid->order_sn('订单号')->expand(function ($model) {
             $comments = $model->order_operation_log()->get()->map(function ($order_operation_log) {
                 return $order_operation_log->only(['content','admin_id','created_at']);
@@ -118,16 +119,30 @@ class OrderController extends Controller
             }
             return new Table(['操作内容','操作人','操作时间'], $comments);
         })->sortable();
-        $grid->request_order_sn('外部订单号');
-
+        $grid->request_order_sn('外部订单号')->limit(10);
         $grid->goods_name('商品')->limit(10);
-        $grid->shop_name('店铺');
+        $grid->shop_name('店铺')->limit(10);
         $grid->buyer_name('买家');
-        $grid->pdd_order_sn('PDD订单号');
+        $grid->pdd_order_sn('PDD订单号')->limit(10);
+        $grid->qr_h5_url('h5QrCode')->lightbox(['width' => 30, 'height' => 30]);
+        $grid->qr_url('QrCode')->lightbox(['width' => 30, 'height' => 30]);
         $grid->pay_type('支付')->display(function ($pay_type){
             return PayTypeCode::$status[$pay_type];
-        });
-        $grid->api_status_str('状态');
+        })->label([
+            1 => 'info',
+            2 => 'success',
+            3 => 'info',
+        ]);
+        $grid->status('状态')->display(function ($status){
+            return OrderCode::$status[$status];
+        })->label([
+            0 => 'default',
+            1 => 'warning',
+            2 => 'success',
+            3 => 'danger',
+            4 => 'info',
+            5 => 'primary',
+        ]);
         //$grid->type('类型')->display(function ($type){
             //return OrderType::$status[$type];
         //});
@@ -139,11 +154,15 @@ class OrderController extends Controller
                 '3'=>'失败',
             ];
             return $data[$is_notice];
-        });
-        $grid->notice_num('异步')->sortable();
-        $grid->pay_url('支付')->display(function ($pay_url){
-            return '<a target="_blank" href="'.$pay_url.'" class="label label-primary">支付</a>';
-        });
+        })->label([
+            1 => 'warning',
+            2 => 'success',
+            3 => 'danger',
+        ]);
+        $grid->notice_num('异步')->label('danger')->sortable();
+//        $grid->pay_url('支付')->display(function ($pay_url){
+//            return '<a target="_blank" href="'.$pay_url.'" class="label label-primary">支付</a>';
+//        });
         $grid->updated_at('Updated at')->sortable();
         $grid->disableExport();
         //$grid->disableRowSelector();
@@ -197,7 +216,7 @@ class OrderController extends Controller
     protected function form()
     {
         $form = new Form(new Order);
-        $form->text('request_order_sn','订单号')->required();
+        $form->text('request_order_sn','订单号')->required()->default(strRand2());
         $form->currency('money','支付金额')->symbol('￥')->required();
         $form->radio('pay_type','支付方式')->options(PayTypeCode::$status)->default(1)->required();
         $form->radio('type','出码方式')->options(OrderType::$status)->default(2)->readonly()->required();

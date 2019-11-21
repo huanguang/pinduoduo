@@ -88,15 +88,15 @@ class Pay
             'app_id' => 38
         ];
         $buyer = Buyer::where('user_id',$order->buyer_id)->select('access_token')->first();
-        $result = HttpRequest::send(sprintf(Url::$pay,$order->buyer_id), $params,['AccessToken:' . $buyer->access_token,
+        $result = HttpRequest::post(sprintf(Url::$pay,$order->buyer_id), json_encode($params, JSON_UNESCAPED_UNICODE),['AccessToken:' . $buyer->access_token,
             'Content-Type:application/json;charset=UTF-8',]);
+        $result = json_decode($result,true);
         if (isset($result['error_code']) && $result['error_code'] > 0) {
 
         }
-        dump($result);die;
-        $url = $result['mweb_url'].'&refer_page_name=transac_wechat_wapcallback&refer_page_id=transac_wechat_wapcallback_1557993164793_uGZ6OErL8b';
+        $url = $result['mweb_url'];
         $headers = [
-            'Referer: https://mobile.yangkeduo.com/transac_wechat_wapcallback.html?order_sn='.$order->pdd_order_sn.'&refer_page_name=my_order&refer_page_id=10032_1557993121020_d3eVE6IgPl&refer_page_sn=10032'
+            'Referer: https://mobile.yangkeduo.com/transac_wechat_wapcallback.html?order_sn='.$order->pdd_order_sn.''
         ];
         return HttpRequest::get($url, $headers);
     }

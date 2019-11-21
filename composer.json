@@ -10,10 +10,12 @@
     "require": {
         "php": "^7.2",
         "arrowjustdoit/crontab": "^1.0",
+        "barryvdh/laravel-debugbar": "^3.2",
         "dingo/api": "^2.4",
         "encore/laravel-admin": "^1.7",
         "fideloper/proxy": "^4.0",
         "guzzlehttp/guzzle": "~6.0",
+        "intervention/image": "^2.5",
         "james.xue/laravel-admin-breadcrumb": "^1.2",
         "laravel-admin-ext/chartjs": "^1.0",
         "laravel-admin-ext/grid-lightbox": "^1.0",
@@ -21,8 +23,10 @@
         "laravel-admin-ext/redis-manager": "^1.2",
         "laravel/framework": "^6.2",
         "laravel/tinker": "^1.0",
+        "maatwebsite/excel": "^3.1",
         "nmred/kafka-php": "dev-master",
-        "predis/predis": "^1.1"
+        "predis/predis": "^1.1",
+        "simplesoftwareio/simple-qrcode": "2.0.*"
     },
     "require-dev": {
         "facade/ignition": "^1.4",
@@ -73,5 +77,11 @@
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
         ]
+    },
+    "repositories": {
+        "packagist": {
+            "type": "composer",
+            "url": "https://packagist.phpcomposer.com"
+        }
     }
 }

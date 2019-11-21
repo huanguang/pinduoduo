@@ -23,6 +23,7 @@ use App\Api\V1\Requests\RequestOrder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use App\Jobs\Notice;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class OrderController extends Controllers
 {
@@ -142,7 +143,8 @@ class OrderController extends Controllers
 
         DB::beginTransaction();//开启事务
         try{
-            $order_sn = Str::random(20);
+            //$order_sn = Str::random(20);
+            $order_sn = strRand2();
             $addData = [
                 'request_order_sn'=>$data['request_order_sn'],//外部订单号
                 'order_sn'=>$order_sn,//当前平台订单号，自生成
@@ -180,7 +182,6 @@ class OrderController extends Controllers
             if($pay_code == 38){
                 $h5_url = Pay::wxPayH5Url($res['order_sn']);
             }
-
             $order = [
                 'order_sn' => $order_sn,
                 'request_order_sn' => $data['request_order_sn'],
@@ -193,7 +194,19 @@ class OrderController extends Controllers
                 'pdd_order_sn'=>$res['order_sn'],
                 'order_amount'=>$res['order_amount'],
                 'pay_url'=>$pay_url,
+                'pay_h5_url'=>$h5_url,
             ];
+
+            $path = base_path('public');
+            $date = '/qrCode/'.date("Y").'/'.date("m").'/'.date("d");
+            $file_path="$path".$date;
+            if(!is_dir($file_path)){
+                mkdir($file_path,777,true);
+            }
+            QrCode::format('png')->color(255,0,255)->size(500)->margin(10)->generate($h5_url, public_path("{$date}/{$order_sn}h5.png"));
+            QrCode::format('png')->color(255,0,255)->size(500)->margin(10)->generate($pay_url, public_path("{$date}/{$order_sn}.png"));
+            $upData['qr_url'] = 'http://'.$_SERVER['HTTP_HOST']."{$date}/{$order_sn}.png";
+            $upData['qr_h5_url'] = 'http://'.$_SERVER['HTTP_HOST']."{$date}/{$order_sn}h5.png";
             //修改订单状态
             $r = Order::where('order_sn',$order_sn)->update($upData);
             if(!$r){

@@ -36,4 +36,5 @@ Route::group([
     //商户
 
     $router->resource('merchant', MerchantController::class); //商户咧白哦
+    $router->resource('orderCharts', OrderChartsController::class); //商户咧白哦
 });

@@ -22,6 +22,7 @@
         "laravel-admin-ext/log-viewer": "^1.0",
         "laravel-admin-ext/redis-manager": "^1.2",
         "laravel/framework": "^6.2",
+        "laravel/horizon": "^3.4",
         "laravel/tinker": "^1.0",
         "maatwebsite/excel": "^3.1",
         "nmred/kafka-php": "dev-master",
